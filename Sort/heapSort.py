@@ -22,3 +22,36 @@ def percolateDown(A, k:int, end:int):
 				percolateDown(A, child, end)
 
 # 코드 9-7
+
+def heapSort(A):
+    print("초기 배열:", A)
+    buildHeap(A)
+    print("\n힙 구축 완료:", A)
+    for last in range(len(A)-1, 0, -1):
+        print(f"\n최대 원소 {A[0]}를 마지막 위치 {last}로 이동")
+        A[last], A[0] = A[0], A[last]
+        print("교환 후 배열:", A)
+        percolateDown(A, 0, last-1)
+    print("\n최종 정렬된 배열:", A)
+
+def buildHeap(A):
+    print("\n힙 구축 시작")
+    for i in range((len(A)-2) // 2, -1, -1):
+        print(f"\n노드 {A[i]} (인덱스 {i})에서 percolateDown 시작")
+        percolateDown(A, i, len(A)-1)
+        print(f"현재 배열 상태: {A}")
+
+def percolateDown(A, k: int, end: int):
+    child = 2*k+1
+    right = 2*k+2
+    if child <= end:
+        if right <= end and A[child] < A[right]:
+            child = right
+        print(f"  비교: 부모 {A[k]} vs 자식 {A[child]}")
+        if A[k] < A[child]:
+            print(f"  교환: {A[k]} <-> {A[child]}")
+            A[k], A[child] = A[child], A[k]
+            print(f"  교환 후 배열: {A}")
+            percolateDown(A, child, end)
+        else:
+            print("  교환 불필요")
